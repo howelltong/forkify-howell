@@ -59,7 +59,15 @@ import addRecipeView from './views/addRecipeView.js'
 // 5. Shopping list feature: button on recipe to add ingredients to a list
 // 6. Weekly meal planning feature: assign recipes to the next 7 days and show on a weekly calendar
 // 7. Get nutrition data on each ingredient from spoonacular API and calculate the total calories of a recipe
-
+// GIT ==> git reset --hard HEAD => restores to state to last commit (removing modifications)
+// GIT ==> git add -A
+// GIT ==> git commit -m 'initialisation' <== on first commit, short descriptions for following commits
+// GIT ==> git log => see all commits => get commit key => reference to certain commit
+// GIT ==> git reset --hard 'key' => return to a certain commit (NOTE VERY DANGEROUS -> better to create branch)
+// GIT ==> git branch (q to close)
+// GIT ==> git branch 'name of branch' => create parallel branch
+// GIT ==> get checkout 'name of branch' => switch to named branch
+// GIT ==> git merge 'branch to merge with current' => merge branch 
 
 
 
