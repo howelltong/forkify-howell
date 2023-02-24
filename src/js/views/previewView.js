@@ -1,14 +1,12 @@
 // //9. parent class
-import View from './View.js'
-import icons from 'url:../../img/icons.svg' //parcel 1
-
-//15. creating a child view for results and bookmarks as they are essentially the same code
+import View from './View.js';
+import icons from 'url:../../img/icons.svg';
 
 class PreviewView extends View {
   _parentElement = '';
 
   _generateMarkup() {
-    const id = window.location.hash.slice(1)
+    const id = window.location.hash.slice(1);
     return `
       <li class="preview">
         <a class="preview__link ${this._data.id === id ? 'preview__link--active' : ''}" href="#${this._data.id}">
@@ -28,7 +26,7 @@ class PreviewView extends View {
         </a>
       </li>
     `;
-  }
-}
+  };
+};
 
 export default new PreviewView();

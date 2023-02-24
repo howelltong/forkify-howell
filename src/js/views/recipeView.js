@@ -1,73 +1,40 @@
-//9. parent class
 import View from './View.js'
-//9. *******CHANGE ALL # => _ as parent-child inheritance (Parcel/Babel) does not support private fields, only protected
+import icons from 'url:../../img/icons.svg'
+import fracty from "fracty";
 
-//2. HTML in JS => icons pathway are routed to current folder but needs to be routed to the 'dist' folder (with the specific name)
-//2. Parcel => can import and create a variable that stores the specific path to the dist folder with the specific (and new) file name
-// import icons from '../img/icons.svg' //parcel 1
-import icons from 'url:../../img/icons.svg' //parcel 1
-// console.log(icons); //2. import icons from '../img/icons.svg' //parcel 1
-
-import fracty from "fracty"; //4. import according npm docs name
-// console.log(Fraction); //Fraction object containing method Fraction => to call: Fraction.Fraction() else destructure on import to avoid .notation
-
-//4. exporting RecipeView into controller will require a new object creation in Controller (unnecessary work and possibility of accidentally creating multiple views)
-//4. ==> AVOID by creating object in this file and export object itself
-//9. ADD PARENT METHODS
-class RecipeView extends View { //4. later will have a parent class 'View' which will contain methods that all child views should inherit + private methods/classes
-  //must define #parentElement and #data differently across Views
-  _parentElement = document.querySelector('.recipe'); //4. makes it easier to render things in the parent element
-  _errorMessage = `We could not find that recipe. Please try another one.` //7. view already knows the message it wants to display
+class RecipeView extends View {
+  _parentElement = document.querySelector('.recipe');
+  _errorMessage = `We could not find that recipe. Please try another one.`;
   _message = ``;
 
 
 
 
-  //6. PUBLISHER
+  //PUBLISHER
   addHandlerRender(handler) {
-    //6. DOM elements  === PRESENTATION LOGIC; Event handling === APPLICATION LOGIC => UI should be in Views but the callback function required is in the controller.js
-    //3. Listening for changes in HASH url 
-    // window.addEventListener('hashchange', handler)
-    // //3. NOTE: event listener is listening for change => will update url with id upon CHANGE (if copied and pasted url, will not show recipe as there is no change) => SOLUTION: Listen for LOAD
-    // window.addEventListener('load', handler)
-
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
-  }
+  };
 
-  //12. New event listener
+
   addHandlerUpdateServings(handler) {
-    //12. buttons of interest => increase/decrease servings via button ('.btn--tiny)
-    //12. event delegation
     this._parentElement.addEventListener('click', function (e) {
-      const btn = e.target.closest('.btn--update-servings') //btn--tiny => class; btn--update-servings => functionality
+      const btn = e.target.closest('.btn--update-servings')
       if (!btn) return;
-      // console.log(btn);
-      const { updateTo } = btn.dataset //12. note that update-to => auto conversion to updateTo
-      if (+updateTo > 0) handler(+updateTo); //12. convert to number outside of declaration and in condition as cannot set variable property as +... => error undefined
+      const { updateTo } = btn.dataset;
+      if (+updateTo > 0) handler(+updateTo);
+    });
+  };
 
-      //connect newServings between view and controller via dataset attribute
-    })
-
-  }
-
-  // 14. Event delegation => bookmark
   addHandlerAddBookmark(handler) {
     this._parentElement.addEventListener('click', function (e) {
-      //14. specific bookmark will not exist on load as markup has not yet been generated => hence parent element/event delegation
       const btn = e.target.closest('.btn--bookmark');
       if (!btn) return;
       handler();
-    })
-  }
+    });
+  };
 
 
-  _generateMarkup() { //4. cannot directly add to render() as each recipe will be unique => create separate private method
-
-    //2. Change html to update dynamically according to the given recipe object 
-    //2. EXAMPLE: replace src="src/img/test-1.jpg" with src="${recipe.image}" (recipe object => dynamic image url)
-    //2. NOTE: ingredients => array of different separate ingredients information as objects (quantity, unit, description)
-    //2. ICONS => comes from import => rerouted to DIST folder so it may display
-    // const markup = ` //4. immediately return so render() can use 
+  _generateMarkup() {
     return `
     <figure class="recipe__fig">
         <img src="${this._data.image}" alt="${this._data.title
@@ -121,7 +88,7 @@ class RecipeView extends View { //4. later will have a parent class 'View' which
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${this._data.ingredients.map(this._generateMarkupIngredient).join('') //2. results become a string of ingredients; join('') => connect all the uniquely generated html elements together as one html element
+          ${this._data.ingredients.map(this._generateMarkupIngredient).join('')
       }
           </ul>
         </div>
@@ -147,7 +114,7 @@ class RecipeView extends View { //4. later will have a parent class 'View' which
         `;
   }
 
-  _generateMarkupIngredient(ing) { //2. must return html; therefore cannot use forEach and should use map()
+  _generateMarkupIngredient(ing) {
     return `
             <li li class="recipe__ingredient" >
               <svg class="recipe__icon">
@@ -160,7 +127,7 @@ class RecipeView extends View { //4. later will have a parent class 'View' which
               </div>
             </li >
             `;
-  }
-}
+  };
+};
 
-export default new RecipeView(); //4. no data passed in => does not require constructor()
+export default new RecipeView();
